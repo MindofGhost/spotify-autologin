@@ -1,0 +1,25 @@
+version: '2.4'
+
+services:
+  spotify-login:
+    image: spotify-login:latest
+    container_name: spotify-login
+    restart: unless-stopped
+    network_mode: bridge
+    init: true
+    environment:
+      TZ: Europe/Moscow
+      usernames: '["account_login1", "account_login2"]'
+      passwords: '["account_password1", "account_password2"]'
+      sleeptime: 5d
+      retries: 4
+      debug: 'false'
+      profiles_dir: "/src/profiles/"
+    volumes:
+      - "./profiles:/src/profiles"
+    ports:
+      - 9222:9222
+    logging:
+      driver: json-file
+      options:
+        max-size: 64M
